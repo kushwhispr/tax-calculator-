@@ -1,18 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import { scraperFor } from './scrapers/index.js';
+import { scraperFor, countyName } from './scrapers/index.js';
 
 const app = express();
 app.use(cors());
-
-const COUNTY_NAMES = {
-  bexar: 'Bexar',
-  blanco: 'Blanco',
-  comal: 'Comal',
-  guadalupe: 'Guadalupe',
-  hays: 'Hays',
-  kendall: 'Kendall',
-};
 
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });
@@ -28,7 +19,8 @@ app.get('/api/lookup', async (req, res) => {
     });
   }
 
-  if (!COUNTY_NAMES[county]) {
+  const name = countyName(county);
+  if (!name) {
     return res.status(400).json({ code: 'UNKNOWN_COUNTY', message: `Unknown county: ${county}` });
   }
 
@@ -36,7 +28,7 @@ app.get('/api/lookup', async (req, res) => {
   if (!scraper) {
     return res.status(501).json({
       code: 'LOOKUP_UNAVAILABLE',
-      message: `Automated lookup for ${COUNTY_NAMES[county]} County is not implemented yet.`,
+      message: `Automated lookup for ${name} County is not implemented yet.`,
     });
   }
 
@@ -46,7 +38,7 @@ app.get('/api/lookup', async (req, res) => {
   } catch (err) {
     res.status(502).json({
       code: 'LOOKUP_UNAVAILABLE',
-      message: `The ${COUNTY_NAMES[county]} County appraisal district portal could not be reached or the property could not be matched (${err.message}).`,
+      message: `The ${name} County appraisal district portal could not be reached or the property could not be matched (${err.message}).`,
     });
   }
 });

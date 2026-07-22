@@ -1,6 +1,4 @@
-function money(n) {
-  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
-}
+import { money } from '../lib/format';
 
 export default function PrintReport({ property, comparison }) {
   const { current, whatIf, annualDifference, monthlyDifference } = comparison;

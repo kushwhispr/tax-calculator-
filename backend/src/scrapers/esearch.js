@@ -20,10 +20,16 @@ export function makeEsearchLookup(baseUrl) {
       await page.keyboard.press('Enter');
       await page.waitForLoadState('networkidle', { timeout: 20000 });
 
-      const resultLink = page.locator('a', { hasText: zip }).first();
+      const houseNumber = address.trim().split(/\s+/)[0];
+      const resultLink = page
+        .locator('a', { hasText: zip })
+        .filter({ hasText: houseNumber })
+        .first();
       if (await resultLink.count()) {
         await resultLink.click();
         await page.waitForLoadState('networkidle', { timeout: 20000 });
+      } else {
+        throw new Error(`No result matched both house number "${houseNumber}" and ZIP "${zip}".`);
       }
 
       const marketValueText = await page
@@ -33,15 +39,29 @@ export function makeEsearchLookup(baseUrl) {
         .textContent()
         .catch(() => null);
 
-      if (!marketValueText) {
-        throw new Error('Could not locate property record on the results page.');
+      const marketValue = marketValueText ? Number(marketValueText.replace(/[^0-9.]/g, '')) : NaN;
+
+      if (!Number.isFinite(marketValue) || marketValue <= 0) {
+        throw new Error('Could not parse a market value from the results page.');
       }
 
-      const marketValue = Number(marketValueText.replace(/[^0-9.]/g, ''));
+      const yearText = await page
+        .getByText(/(tax|appraisal) year/i)
+        .locator('xpath=following::*[1]')
+        .first()
+        .textContent()
+        .catch(() => null);
+      const parsedYear = yearText ? Number(yearText.replace(/[^0-9]/g, '')) : NaN;
+
+      const preliminary = await page
+        .getByText(/preliminary|work[- ]?in[- ]?progress/i)
+        .count()
+        .then((count) => count > 0)
+        .catch(() => false);
 
       return {
-        year: new Date().getFullYear(),
-        preliminary: false,
+        year: Number.isFinite(parsedYear) && parsedYear > 2000 ? parsedYear : new Date().getFullYear(),
+        preliminary,
         marketValue,
         taxingUnits: [],
       };

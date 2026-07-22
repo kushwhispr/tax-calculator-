@@ -8,11 +8,15 @@ import { lookupProperty } from './lib/api';
 import { computeComparison, defaultExemptions } from './lib/taxCalc';
 import './App.css';
 
+function emptyProperty() {
+  return { county: '', address: '', zip: '', year: '', preliminary: false };
+}
+
 export default function App() {
   const [stage, setStage] = useState('lookup');
   const [loading, setLoading] = useState(false);
   const [lookupError, setLookupError] = useState('');
-  const [property, setProperty] = useState({ county: '', address: '', zip: '', year: '' });
+  const [property, setProperty] = useState(emptyProperty());
   const [units, setUnits] = useState([]);
   const [currentMarketValue, setCurrentMarketValue] = useState(0);
   const [whatIfMarketValue, setWhatIfMarketValue] = useState(0);
@@ -25,10 +29,12 @@ export default function App() {
   );
 
   function startManual(countyOverride) {
-    setProperty((p) => ({ ...p, county: countyOverride || p.county || 'bexar' }));
+    setProperty({ ...emptyProperty(), county: countyOverride || 'bexar' });
     setUnits([makeUnit({ name: '', type: 'school' })]);
     setCurrentMarketValue(0);
     setWhatIfMarketValue(0);
+    setCurrentExemptions(defaultExemptions());
+    setWhatIfExemptions(defaultExemptions());
     setStage('workspace');
   }
 
@@ -48,6 +54,8 @@ export default function App() {
       setUnits(loadedUnits);
       setCurrentMarketValue(result.marketValue || 0);
       setWhatIfMarketValue(result.marketValue || 0);
+      setCurrentExemptions(defaultExemptions());
+      setWhatIfExemptions(defaultExemptions());
       setStage('workspace');
     } catch (err) {
       setLookupError(
@@ -63,8 +71,10 @@ export default function App() {
   function reset() {
     setStage('lookup');
     setLookupError('');
-    setProperty({ county: '', address: '', zip: '', year: '' });
+    setProperty(emptyProperty());
     setUnits([]);
+    setCurrentExemptions(defaultExemptions());
+    setWhatIfExemptions(defaultExemptions());
   }
 
   if (stage === 'lookup') {

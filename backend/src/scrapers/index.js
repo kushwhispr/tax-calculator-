@@ -1,7 +1,12 @@
-import { lookupBexar } from './bcad.js';
+import { makeEsearchLookup } from './esearch.js';
 
 export const SCRAPERS = {
-  bexar: lookupBexar,
+  bexar: makeEsearchLookup('https://esearch.bcad.org/'),
+  blanco: makeEsearchLookup('https://esearch.blancocad.org/'),
+  comal: makeEsearchLookup('https://esearch.comalad.org/'),
+  guadalupe: makeEsearchLookup('https://esearch.guadalupead.org/'),
+  hays: makeEsearchLookup('https://esearch.hayscad.com/'),
+  kendall: makeEsearchLookup('https://esearch.kendallad.org/'),
 };
 
 export function scraperFor(county) {

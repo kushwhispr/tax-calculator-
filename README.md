@@ -12,12 +12,14 @@ Guadalupe, Hays, and Kendall.
 
 - The calculator itself (market value, exemptions, per-taxing-unit rates, current-vs-what-if
   comparison, print report) is fully working with manually entered or edited data.
-- Automated lookup is implemented for **Bexar County** only (`esearch.bcad.org`), with the other
-  five counties returning a clear "not implemented yet" response. The BCAD scraper could not be
-  verified against the live site from the sandbox this was built in — outbound network access
-  there is restricted to an allowlist that does not include `esearch.bcad.org`. Its selectors
-  should be checked against the live DOM the first time it runs somewhere with normal internet
-  access, per the note in `backend/src/scrapers/bcad.js`.
+- Automated lookup is implemented for all six counties (`backend/src/scrapers/esearch.js`,
+  `backend/src/scrapers/index.js`) — they all run on the same "eSearch" portal software, just on
+  different subdomains (`esearch.bcad.org`, `esearch.blancocad.org`, `esearch.comalad.org`,
+  `esearch.guadalupead.org`, `esearch.hayscad.com`, `esearch.kendallad.org`), so one scraper
+  covers all of them. None of it could be verified against the live sites from the sandbox this
+  was built in — outbound network access there is restricted to an allowlist that doesn't include
+  any of these hosts. Selectors should be checked against the real DOM the first time this runs
+  somewhere with normal internet access, per the note in `backend/src/scrapers/esearch.js`.
 - If a lookup fails or isn't supported for a county, the UI offers "Enter Manually" so the
   calculator is always usable.
 

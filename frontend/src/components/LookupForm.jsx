@@ -59,7 +59,12 @@ export default function LookupForm({ onLookup, onManualStart, loading }) {
         </div>
       </form>
       {formError && <p className="error">{formError}</p>}
-      {!selectedCounty?.supportsLookup && (
+      {selectedCounty?.supportsLookup ? (
+        <p className="hint">
+          Automated lookup for {selectedCounty?.label} is unverified against the live portal and
+          may fail or return incomplete data. If it does, use "Enter Manually" instead.
+        </p>
+      ) : (
         <p className="hint">
           Automated lookup for {selectedCounty?.label} is not available yet in this build. Use
           "Enter Manually" to build an estimate from your own records.

@@ -70,21 +70,17 @@ export function computeUnitLevy(taxableValue, ratePerHundred) {
 
 export function computeSummary(marketValue, units, exemptions) {
   const enabledUnits = units.filter((u) => u.enabled);
+  const noExemptions = defaultExemptions();
 
+  let totalLevy = 0;
+  let totalLevyNoExemption = 0;
   const rows = enabledUnits.map((unit) => {
     const taxableValue = computeTaxableValue(marketValue, unit, exemptions);
     const levy = computeUnitLevy(taxableValue, unit.rate);
+    totalLevy += levy;
+    totalLevyNoExemption += computeUnitLevy(computeTaxableValue(marketValue, unit, noExemptions), unit.rate);
     return { unit, taxableValue, levy };
   });
-
-  const noExemptionRows = enabledUnits.map((unit) => {
-    const taxableValue = computeTaxableValue(marketValue, unit, defaultExemptions());
-    const levy = computeUnitLevy(taxableValue, unit.rate);
-    return { unit, taxableValue, levy };
-  });
-
-  const totalLevy = rows.reduce((sum, r) => sum + r.levy, 0);
-  const totalLevyNoExemption = noExemptionRows.reduce((sum, r) => sum + r.levy, 0);
 
   return {
     rows,

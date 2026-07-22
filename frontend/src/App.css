@@ -1,0 +1,258 @@
+.app-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1a1a1a;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.subtitle {
+  color: #555;
+  max-width: 640px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.lookup-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  align-items: end;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+}
+
+input, select {
+  font-size: 0.95rem;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+button {
+  font-size: 0.9rem;
+  padding: 9px 16px;
+  border-radius: 6px;
+  border: none;
+  background: #1a4d2e;
+  color: #fff;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #eee;
+  color: #1a1a1a;
+  border: 1px solid #ccc;
+}
+
+button.link-danger {
+  background: none;
+  color: #a41c1c;
+  padding: 4px 6px;
+  font-size: 0.8rem;
+}
+
+.lookup-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+}
+
+.error {
+  color: #a41c1c;
+}
+
+.hint {
+  color: #555;
+  font-size: 0.85rem;
+}
+
+.hint.small {
+  font-size: 0.78rem;
+  margin-top: 12px;
+}
+
+.property-meta-grid, .value-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.exemptions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.exemption-picker {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.exemption-picker legend {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.checkbox-row {
+  flex-direction: row;
+  align-items: center;
+  font-weight: 400;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.select-row {
+  margin-bottom: 8px;
+}
+
+.units-table-wrap {
+  overflow-x: auto;
+}
+
+.units-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.units-table th, .units-table td {
+  border-bottom: 1px solid #eee;
+  padding: 6px 8px;
+  text-align: left;
+}
+
+.units-table input, .units-table select {
+  width: 100%;
+  min-width: 90px;
+  padding: 4px 6px;
+}
+
+.disabled-row {
+  opacity: 0.5;
+}
+
+.readonly-cell {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.source-cell {
+  font-size: 0.75rem;
+  color: #777;
+}
+
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.summary-table th, .summary-table td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.diff-callout {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.diff-callout > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.diff-label {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.diff-up {
+  color: #a41c1c;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.diff-down {
+  color: #1a4d2e;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.print-report {
+  display: none;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-report {
+    display: block;
+  }
+  @page {
+    size: landscape;
+    margin: 1.2cm;
+  }
+  .print-table, .print-summary {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+  }
+  .print-table th, .print-table td, .print-summary td {
+    border: 1px solid #999;
+    padding: 6px 8px;
+    text-align: left;
+  }
+  .print-disclaimer {
+    font-size: 0.8rem;
+    color: #333;
+  }
+  .print-footer {
+    font-size: 0.75rem;
+    color: #666;
+  }
+}

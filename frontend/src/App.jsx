@@ -81,8 +81,11 @@ export default function App() {
     return (
       <div className="app-shell">
         <header>
-          <h1>Central Texas Property Tax Calculator</h1>
-          <p className="subtitle">Public record lookups and what-if tax estimates for Bexar, Blanco, Comal, Guadalupe, Hays, and Kendall counties.</p>
+          <div>
+            <p className="kicker">Central Texas &middot; Public Records</p>
+            <h1>Property Tax Estimator</h1>
+            <p className="subtitle">Public record lookups and what-if tax estimates for Bexar, Blanco, Comal, Guadalupe, Hays, and Kendall counties.</p>
+          </div>
         </header>
         <LookupForm onLookup={handleLookup} onManualStart={() => startManual()} loading={loading} />
         {lookupError && <p className="error card">{lookupError}</p>}
@@ -93,7 +96,10 @@ export default function App() {
   return (
     <div className="app-shell">
       <header className="no-print">
-        <h1>Central Texas Property Tax Calculator</h1>
+        <div>
+          <p className="kicker">Central Texas &middot; Public Records</p>
+          <h1>Property Tax Estimator</h1>
+        </div>
         <div className="header-actions">
           <button type="button" className="secondary" onClick={reset}>Start Over</button>
           <button type="button" onClick={() => window.print()}>Print / Save as PDF</button>
